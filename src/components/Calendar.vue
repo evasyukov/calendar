@@ -1,13 +1,11 @@
 <template>
   <div class="calendar">
+    <div class="selected-date">Выбранная дата: {{ formatDate(selectedDate) }}</div>
     <div class="header">
       <button @click="prevMonth">&lt;</button>
       <div class="month-year">{{ currentMonthName }} {{ currentYear }}</div>
-      <button @click="nextMonth">&gt;</button>
-      <LanguageSwitcher
-        :language="language"
-        @language-changed="changeLanguage"
-      ></LanguageSwitcher>
+      <button class="next" @click="nextMonth">&gt;</button>
+      <LanguageSwitcher :language="language" @language-changed="changeLanguage"></LanguageSwitcher>
     </div>
     <div class="days-of-week">
       <div v-for="day in daysOfWeek" :key="day">{{ day }}</div>
@@ -17,8 +15,7 @@
         v-for="day in days"
         :key="day.date"
         @click="selectDate(day.date)"
-        :class="{ empty: !day.day, selected: day.date === selectedDate }"
-      >
+        :class="{ empty: !day.day, selected: day.date === selectedDate }">
         {{ day.day }}
       </div>
     </div>
@@ -60,6 +57,7 @@ export default {
       const date = this.initialDate ? new Date(this.initialDate) : new Date()
       this.currentMonth = date.getMonth()
       this.currentYear = date.getFullYear()
+      this.selectedDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
       this.generateDays()
     },
     generateDays() {
@@ -110,7 +108,11 @@ export default {
       this.$emit("dateSelected", this.selectedDate)
     },
     changeLanguage(newLanguage) {
-      this.$emit("update:language", newLanguage)
+      this.$emit('update:language', newLanguage);
+    },
+    formatDate(date) {
+      const [year, month, day] = date.split("-")
+      return `${day}.${month}.${year}`
     },
   },
   computed: {
@@ -170,5 +172,11 @@ export default {
 .days div.selected {
   background-color: #cecdcda1;
   color: white;
+}
+.selected-date{
+  margin-bottom: 3vh;
+  background-color: #494747;
+  width: 240px;
+  
 }
 </style>

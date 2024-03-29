@@ -1,5 +1,5 @@
 <template>
-  <button @click="toggleLanguage">{{ language === "ru" ? "ru" : "en" }}</button>
+   <button @click="toggleLanguage">{{ language === 'ru' ? 'EN' : 'RU' }}</button>
 </template>
 
 <script>
