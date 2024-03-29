@@ -6,7 +6,7 @@
       <button @click="nextMonth">&gt;</button>
       <LanguageSwitcher
         :language="language"
-        @language-change="changeLanguage"
+        @language-changed="changeLanguage"
       ></LanguageSwitcher>
     </div>
     <div class="days-of-week">
@@ -73,19 +73,18 @@ export default {
         this.currentMonth + 1,
         0
       ).getDate()
+
       const daysArray = []
 
-      for (let i = 1; i <= firstDayOfMonth; i++) {
+      for (let i = 2; i <= firstDayOfMonth; i++) {
         daysArray.push({ day: "", date: "" })
       }
-
       for (let i = 1; i <= daysInMonth; i++) {
         daysArray.push({
           day: i,
           date: `${this.currentYear}-${this.currentMonth + 1}-${i}`,
         })
       }
-
       this.days = daysArray
     },
     prevMonth() {
@@ -109,6 +108,9 @@ export default {
     selectDate(date) {
       this.selectedDate = date
       this.$emit("dateSelected", this.selectedDate)
+    },
+    changeLanguage(newLanguage) {
+      this.$emit("update:language", newLanguage)
     },
   },
   computed: {
@@ -169,4 +171,4 @@ export default {
   background-color: #cecdcda1;
   color: white;
 }
-</style>./LanguageSwitcher.vue
+</style>
